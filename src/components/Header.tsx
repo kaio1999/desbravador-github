@@ -24,8 +24,8 @@ const Header: React.FC = () => {
 
   return (
     <nav
-      className={`bg-black text-white shadow-md w-full fixed top-0 left-0 z-50 transition-all duration-300 ease-in-out ${
-        isScrolled ? "" : "lg:rounded-br-2xl lg:rounded-bl-2xl"
+      className={`bg-gradient-to-r from-gray-700 to-black text-white shadow-md w-full fixed top-0 left-0 z-50 transition-all duration-300 ease-in-out ${
+        !isScrolled && "lg:rounded-br-2xl lg:rounded-bl-2xl"
       }`}
     >
       <div className="container mx-auto flex flex-col lg:flex-row justify-between items-center p-4">
@@ -66,7 +66,7 @@ const Header: React.FC = () => {
                 to="/user/octocat"
                 className="block px-3 py-2 rounded-md text-base font-medium hover:text-blue-400 transition duration-300"
               >
-                Detalhes do Usuário
+                User Details
               </Link>
             </li>
             <li>
@@ -74,7 +74,7 @@ const Header: React.FC = () => {
                 to="/repo/octocat/repo-example"
                 className="block px-3 py-2 rounded-md text-base font-medium hover:text-blue-400 transition duration-300"
               >
-                Detalhes do Repositório
+                Repo Details
               </Link>
             </li>
           </ul>
