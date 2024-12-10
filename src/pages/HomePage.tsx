@@ -1,10 +1,12 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useNavigate } from "react-router-dom";
-import Modal from "../components/Modal";
+import ModalContainer from "../components/ModalContainer";
 import Search from "../components/Search";
 import { useUserStore, useReposStore } from "../stores";
 import { getUserDetails, getUserRepos } from "../services/api";
 import { ToastContainer, toast } from "react-toastify";
+import { AxiosError } from "axios";
+import { ErrorMessages } from "../enums/ErrorMessages";
 
 const HomePage: React.FC = () => {
   const navigate = useNavigate();
@@ -17,39 +19,39 @@ const HomePage: React.FC = () => {
     });
   };
 
-  function ErrorMessage(code: number) {
-    const isNotFoundUser = code === 404;
+  const handleSearch = useCallback(
+    async (username: string) => {
+      try {
+        const [responseDetailsUser, responseReposUser] = await Promise.all([
+          getUserDetails(username),
+          getUserRepos(username),
+        ]);
 
-    if (isNotFoundUser) {
-      return "Nenhum usuário foi encontrado com esse nome. Certifique-se de que o nome está correto e tente novamente.";
-    }
+        setUser(responseDetailsUser.data);
+        setRepos(responseReposUser.data);
+        navigate(`/user`);
+      } catch (error) {
+        if (error instanceof AxiosError) {
+          const status = error.response?.status;
+          const message =
+            status === 404
+              ? ErrorMessages.UserNotFound
+              : ErrorMessages.GeneralError;
 
-    return "Ocorreu um erro ao processar sua solicitação. Por favor, tente novamente em breve.";
-  }
-
-  const handleSearch = async (username: string) => {
-    try {
-      const [responseDetailsUser, responseReposUser] = await Promise.all([
-        getUserDetails(username),
-        getUserRepos(username),
-      ]);
-  
-      setUser(responseDetailsUser.data);
-      setRepos(responseReposUser.data);
-      navigate(`/user`);
-    } catch (error) {
-      const status = (error as any)?.status;
-      const message = ErrorMessage(status);
-      showErrorNotification(message);
-    }
-  };
-  
+          showErrorNotification(message);
+        } else {
+          showErrorNotification(ErrorMessages.UnexpectedError);
+        }
+      }
+    },
+    [navigate, setUser, setRepos]
+  );
 
   return (
     <div className="h-screen flex items-center justify-center text-white">
-      <Modal isOpen={true}>
+      <ModalContainer>
         <Search onSearch={handleSearch} />
-      </Modal>
+      </ModalContainer>
       <ToastContainer />
     </div>
   );

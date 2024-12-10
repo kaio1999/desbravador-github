@@ -1,5 +1,5 @@
 import * as React from "react";
-const GitHubIcon = (props: any) => (
+const GitHubIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     width={33}
     height={33}

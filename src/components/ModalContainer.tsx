@@ -1,15 +1,13 @@
 import React from "react";
 
-interface ModalProps {
-  isOpen: boolean;
+interface ModalContainerProps {
   children: React.ReactNode;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, children }) => {
-  if (!isOpen) return null;
+const ModalContainer: React.FC<ModalContainerProps> = ({ children }) => {
 
   return (
-    <div className="fixed inset-0 flex items-center justify-center z-50">
+    <div className="fixed inset-0 flex items-center justify-center">
       <div className="bg-[#f5f5f5] text-white p-6 rounded-lg shadow-lg max-w-3xl w-full mx-4">
         <h2 className="text-xl font-medium mb-4 text-center text-black">
           Buscar Usuário
@@ -20,4 +18,4 @@ const Modal: React.FC<ModalProps> = ({ isOpen, children }) => {
   );
 };
 
-export default Modal;
+export default ModalContainer;
