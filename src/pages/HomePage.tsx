@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ModalContainer from "../components/ModalContainer";
 import Search from "../components/Search";
@@ -9,6 +9,8 @@ import { AxiosError } from "axios";
 import { ErrorMessages } from "../enums/ErrorMessages";
 
 const HomePage: React.FC = () => {
+  const [loading, setLoading] = useState<boolean>(false);
+
   const navigate = useNavigate();
   const setUser = useUserStore((state) => state.setUser);
   const setRepos = useReposStore((state) => state.setRepos);
@@ -21,6 +23,7 @@ const HomePage: React.FC = () => {
 
   const handleSearch = useCallback(
     async (username: string) => {
+      setLoading(true);
       try {
         const [responseDetailsUser, responseReposUser] = await Promise.all([
           getUserDetails(username),
@@ -43,6 +46,7 @@ const HomePage: React.FC = () => {
           showErrorNotification(ErrorMessages.UnexpectedError);
         }
       }
+      setLoading(false)
     },
     [navigate, setUser, setRepos]
   );
@@ -50,9 +54,9 @@ const HomePage: React.FC = () => {
   return (
     <div className="h-screen flex items-center justify-center text-white">
       <ModalContainer>
-        <Search onSearch={handleSearch} />
+        <Search onSearch={handleSearch} isLoading={loading}/>
       </ModalContainer>
-      <ToastContainer />
+      <ToastContainer stacked/>
     </div>
   );
 };
