@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
         <ul className="flex flex-col lg:flex-row items-center gap-4">
           <li>
             <Link
-              to="/https://support.github.com/"
+              to="https://support.github.com/"
               className="hover:text-blue-400 transition duration-300 text-sm"
             >
               Contato
@@ -23,7 +23,7 @@ const Footer: React.FC = () => {
           </li>
           <li>
             <Link
-              to="/https://github.blog/"
+              to="https://github.blog/"
               className="hover:text-blue-400 transition duration-300 text-sm"
             >
               GitHub blog
