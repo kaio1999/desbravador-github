@@ -3,6 +3,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { getRepoDetails } from "../services/api";
 import { toast } from "react-toastify";
 import { ArrowLeftIcon } from "../assets/Icons";
+import { Helmet } from "react-helmet-async";
 
 interface RepoDetailsProps {
   name: string;
@@ -44,6 +45,13 @@ const RepoDetails: React.FC = () => {
   if (loading) {
     return (
       <div className="h-screen flex items-center justify-center bg-gray-900 text-white">
+        <Helmet>
+          <title>Detalhes do repositório | GitHub Explorer</title>
+          <meta
+            name="description"
+            content="Página pra visualizar os detalhes do repositório."
+          />
+        </Helmet>
         <div className="animate-pulse space-y-4">
           <div className="w-64 h-8 bg-gray-700 rounded"></div>
           <div className="w-96 h-6 bg-gray-700 rounded"></div>

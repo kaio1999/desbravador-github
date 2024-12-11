@@ -4,11 +4,14 @@ import "./App.css";
 import "react-toastify/dist/ReactToastify.css";
 import Routes from "./routes/AppRoutes";
 import { BrowserRouter as Router } from "react-router-dom";
+import { HelmetProvider } from "react-helmet-async";
 
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
-    <Router>
-      <Routes />
-    </Router>
+    <HelmetProvider>
+      <Router>
+        <Routes />
+      </Router>
+    </HelmetProvider>
   </StrictMode>
 );

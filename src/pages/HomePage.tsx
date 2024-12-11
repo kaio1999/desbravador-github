@@ -7,6 +7,7 @@ import { getUserDetails, getUserRepos } from "../services/api";
 import { ToastContainer, toast } from "react-toastify";
 import { AxiosError } from "axios";
 import { ErrorMessages } from "../enums/ErrorMessages";
+import { Helmet } from "react-helmet-async"; // Importação do Helmet
 
 const HomePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
@@ -46,17 +47,21 @@ const HomePage: React.FC = () => {
           showErrorNotification(ErrorMessages.UnexpectedError);
         }
       }
-      setLoading(false)
+      setLoading(false);
     },
     [navigate, setUser, setRepos]
   );
 
   return (
     <div className="h-screen flex items-center justify-center text-white">
+      <Helmet>
+        <title>Home | GitHub Explorer</title>
+        <meta name="description" content="Página inicial para buscar usuários no GitHub." />
+      </Helmet>
       <ModalContainer>
-        <Search onSearch={handleSearch} isLoading={loading}/>
+        <Search onSearch={handleSearch} isLoading={loading} />
       </ModalContainer>
-      <ToastContainer stacked/>
+      <ToastContainer stacked />
     </div>
   );
 };
